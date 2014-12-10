@@ -3,15 +3,18 @@
 
 .tr-header
   HEIGHT = 290px
-
   position relative
-  background $TR_BLUE
   min-height HEIGHT
   font-family $TR_FONT_SANS
   color white
 
   *
     box-sizing border-box
+
+
+  background $TR_BLUE
+  &.tr-has-failures
+    background $TR_ORANGE
 
 
   h1, h2

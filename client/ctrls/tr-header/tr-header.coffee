@@ -31,6 +31,12 @@ Ctrl.define
 
 
     helpers:
+      cssClass: ->
+        css = ''
+        css += 'tr-has-failures' if @api.totalFailed() > 0
+        css
+
+
       title: ->
         title = @api.title()
         right = null
