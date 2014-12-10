@@ -2,6 +2,24 @@ Ctrl.define
   'tr-header':
     init: ->
     ready: ->
+      # Sync tab labels.
+      @autorun =>
+          total = @api.totalTests()
+          @children.total.label("#{ total } #{ Util.string.plural(total, 'test') }")
+          @children.passed.label("#{ @api.totalPassed() } Passed")
+          @children.failed.label("#{ @api.totalFailed() } Failed")
+
+      # Sync tab position
+      @autorun =>
+          selectedId = @api.selectedTabId()
+          tabCtrl = @children[selectedId]
+          if tabCtrl
+            left = tabCtrl.el().position().left
+            left = Math.floor(left)
+            @el('.tr-selection').css('left', "#{ left }px")
+
+
+
     destroyed: ->
     model: ->
     api:
@@ -21,11 +39,18 @@ Ctrl.define
       ###
       version: (value) -> @prop 'version', value, default:'0.0.0'
 
+      ###
+      REACTIVE: Gets or sets the ID of the currently selected tab.
+      ###
+      selectedTabId: (value) -> @prop 'selectedTabId', value, default:'total'
+
 
       # Totals
       totalTests: (value) -> @prop 'totalTests', value, default:0
       totalPassed: (value) -> @prop 'totalPassed', value, default:0
       totalFailed: (value) -> @prop 'totalFailed', value, default:0
+
+
 
 
 

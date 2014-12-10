@@ -1,6 +1,9 @@
 <template name='tr-header'>
   <div class='tr-header {{ cssClass }}'>
 
+    <div class='tr-version'>Velocity {{ api.version }}</div>
+    <div class='tr-progress-bar' style='{{ progressStyle }}'></div>
+
     <div class='tr-center-width'>
       <div class='tr-title-outer'>
         {{#with title}}
@@ -10,9 +13,14 @@
           {{/if}}
         {{/with}}
       </div>
+
+      <div class='tr-tabs-outer'>
+        {{> ctrl type='tr-header-tab' id='total' }}
+        {{> ctrl type='tr-header-tab' id='passed' }}
+        {{> ctrl type='tr-header-tab' id='failed' }}
+        <div class='tr-selection'></div>
+      </div>
     </div>
 
-    <div class='tr-version'>Velocity {{ api.version }}</div>
-    <div class='tr-progress-bar' style='{{ progressStyle }}'></div>
   </div>
 </template>

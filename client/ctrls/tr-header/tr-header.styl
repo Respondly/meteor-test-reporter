@@ -7,14 +7,11 @@
   min-height HEIGHT
   font-family $TR_FONT_SANS
   color white
+  background $TR_BLUE
 
   *
     box-sizing border-box
 
-
-  background $TR_BLUE
-  &.tr-has-failures
-    background $TR_ORANGE
 
 
   h1, h2
@@ -59,4 +56,24 @@
     color black
     opacity 0.2
     font-size 11px
+
+
+  .tr-tabs-outer
+    abs-pos 0, null, 0, 0
+    height 42px
+    .tr-selection
+      abs-pos 0, null, null, 0
+      width 130px
+      height 7px
+      background $TR_PINK
+      transition left 0.2s
+
+  // ------------------------------------------------------
+
+  &.tr-has-failures
+    background $TR_ORANGE
+    .tr-tabs-outer
+      .tr-selection
+        background $TR_BLUE
+
 
