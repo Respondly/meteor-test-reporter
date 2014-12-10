@@ -12,14 +12,11 @@
   *
     box-sizing border-box
 
-
-
   h1, h2
     font-family $TR_FONT_SANS
     font-weight 100
     margin 0
     padding 0
-
 
   h1
     font-size 42px
@@ -27,11 +24,7 @@
     padding-bottom 8px
     border-bottom solid 1px rgba(white, 0.2)
 
-
-  .tr-center-width
-    position relative
-    margin 0 auto
-    width 900px
+  .tr-content-center
     height HEIGHT
 
 
@@ -66,7 +59,7 @@
       width 130px
       height 7px
       background $TR_PINK
-      transition left 0.2s
+      transition transform 0.2s //cubic-bezier(0.000, 0.000, 0.580, 1.000)
 
   // ------------------------------------------------------
 

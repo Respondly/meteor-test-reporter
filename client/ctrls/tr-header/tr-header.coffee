@@ -1,6 +1,5 @@
 Ctrl.define
   'tr-header':
-    init: ->
     ready: ->
       # Sync tab labels.
       @autorun =>
@@ -16,12 +15,9 @@ Ctrl.define
           if tabCtrl
             left = tabCtrl.el().position().left
             left = Math.floor(left)
-            @el('.tr-selection').css('left', "#{ left }px")
+            @el('.tr-selection').css('transform', "translateX(#{ left }px)")
 
 
-
-    destroyed: ->
-    model: ->
     api:
       ###
       REACTIVE: Gets or sets the propgress percentage (0..1)
@@ -85,12 +81,3 @@ Ctrl.define
         style = "width:#{ percent * 100 }%;"
         style
 
-
-
-
-
-
-
-
-
-    events: {}
