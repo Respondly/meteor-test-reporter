@@ -3,6 +3,11 @@ Shows progress and output from a test runner.
 
 
 
+## Usage
+Render the test-reporter UI control:
+
+    {{> TestReporter }}
+
 
 
 

@@ -1,13 +1,15 @@
 Ctrl.define
   'tr-reporter':
     init: ->
+      @controller = PKG.TestReporterController().init(@ctrl)
+
     ready: ->
-    destroyed: ->
-    model: ->
+      @ctrl.header = @children.header
+      @ctrl.results = @children.results
 
-    api:
-      header: -> @children.header
-      results: -> @children.results
 
+    destroyed: -> @controller.dispose()
+
+    api: {}
     helpers: {}
     events: {}
