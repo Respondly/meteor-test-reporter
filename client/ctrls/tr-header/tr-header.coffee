@@ -22,19 +22,40 @@ Ctrl.define
       version: (value) -> @prop 'version', value, default:'0.0.0'
 
 
+      # Totals
+      totalTests: (value) -> @prop 'totalTests', value, default:0
+      totalPassed: (value) -> @prop 'totalPassed', value, default:0
+      totalFailed: (value) -> @prop 'totalFailed', value, default:0
+
+
+
 
     helpers:
-
       title: ->
         title = @api.title()
-        title = 'Untitled' if Util.isBlank(title)
-        title
+        right = null
+        if Util.isBlank(title)
+          main = 'Untitled'
+        else
+          parts = title.split(':')
+          if parts.length is 1
+            main = parts[0]
+          else
+            main = parts[1]
+            right = title
+        result =
+          main: main
+          right: right
+
 
       progressStyle: ->
         percent = @api.percentComplete()
         percent = Number.range(0,1).clamp(percent)
         style = "width:#{ percent * 100 }%;"
         style
+
+
+
 
 
 

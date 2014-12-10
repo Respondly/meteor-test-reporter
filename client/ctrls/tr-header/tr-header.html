@@ -3,7 +3,12 @@
 
     <div class='tr-center-width'>
       <div class='tr-title-outer'>
-        <h1>{{ title }}</h1>
+        {{#with title}}
+          <h1>{{ main }}</h1>
+          {{#if right}}
+            <div class='tr-title-right'>{{ right }}</div>
+          {{/if}}
+        {{/with}}
       </div>
     </div>
 
