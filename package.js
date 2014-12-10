@@ -33,6 +33,7 @@ Package.onUse(function(api) {
   api.addFiles('client/controller/test-reporter-controller.coffee', 'client');
   api.addFiles('client/css-mixins/test-runner.import.styl', 'client');
   api.addFiles('client/ctrls/css.styl', 'client');
+  api.addFiles('client/css.styl', 'client');
 
 });
 
