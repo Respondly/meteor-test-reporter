@@ -14,6 +14,9 @@ Package.onUse(function(api) {
   api.use('respondly:css-stylus@1.0.3');
   api.use('respondly:ctrl@1.0.1');
   api.use('respondly:util@1.0.1');
+  api.use(['velocity:core@0.4.2']);
+
+  api.export("Ctrl");
 
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('shared/ns.js', ['client', 'server']);

@@ -4,6 +4,11 @@ Ctrl.define
     ready: ->
     destroyed: ->
     model: ->
-    api: {}
-    helpers: {}
+    api: {
+      results: (value) -> @prop 'results', value, default:[]
+    }
+    helpers:
+      results: ->
+        @api.results()
+
     events: {}
