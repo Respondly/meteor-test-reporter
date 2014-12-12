@@ -32,19 +32,22 @@ TestReporterController = stampit().enclose ->
     #TODO set list of packages, not the title
     ctrl.header.title(packagesUnderTest[0])
 
-    count = 0
-    countTests = (suite)->
-      count = count + (suite.tests?.length or 0)
-      for suite in suite.suites
-        countTests(suite)
-    countTests mocha.suite
-    #TODO this is only counting client tests right now
-    console.log "total test count", count
-    ctrl.header.totalTests count
-
     @autorun =>
-      ctrl.header.totalPassed Reports.find({result: 'passed'}).count()
-      ctrl.header.totalFailed Reports.find({result: 'failed'}).count()
+      mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
+      if mochaMetadata
+        total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
+      else
+        total = 0
+      passed = Reports.find({result: 'passed'}).count()
+      failed = Reports.find({result: 'failed'}).count()
+
+      ctrl.header.totalPassed passed
+      ctrl.header.totalFailed failed
+      ctrl.header.totalTests total
+      if total == 0
+        ctrl.header.percentComplete 0
+      else
+        ctrl.header.percentComplete(1.0 * (passed + failed) / total)
 
       if ctrl.header.selectedTabId() == "total"
         ctrl.results.results(Reports.find({}))

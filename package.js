@@ -5,10 +5,10 @@ Package.describe({
   git: 'https://github.com/Respondly/respondly-test-reporter.git'
 });
 
-
-
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
+  api.use('autoupdate', 'server');
+  api.use('random', 'server');
   api.use(['coffeescript', 'http']);
   api.use(['templating', 'ui', 'spacebars'], 'client');
   api.use('respondly:css-stylus@1.0.3');
@@ -16,6 +16,8 @@ Package.onUse(function(api) {
   api.use('respondly:util@1.0.1');
   api.use(['velocity:core@0.4.2']);
   api.export("Ctrl");
+
+  api.addFiles("server/autoupdate.js", ['server']);
 
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('shared/ns.js', ['client', 'server']);
