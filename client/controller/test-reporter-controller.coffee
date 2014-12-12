@@ -8,7 +8,7 @@ TestReporterController = stampit().enclose ->
   @onDisposed =>
     # Run shutdown code here.
     # This is invoked after [controller.dispose()] is called.
-    console.log 'onDisposed'
+    # console.log 'onDisposed'
 
 
 
