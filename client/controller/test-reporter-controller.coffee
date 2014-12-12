@@ -39,7 +39,9 @@ TestReporterController = stampit().enclose ->
         countTests(suite)
 
     # MIKE: Commented out because mocha is not defined (error)
-    # countTests mocha.suite
+    countTests(mocha?.suite)
+    if not mocha?
+      console.log 'mocha object does not exist!!!!'
 
     #TODO this is only counting client tests right now
     console.log "total test count", count
