@@ -8,7 +8,7 @@ TestReporterController = stampit().enclose ->
   @onDisposed =>
     # Run shutdown code here.
     # This is invoked after [controller.dispose()] is called.
-    console.log 'onDisposed'
+    # console.log 'onDisposed'
 
 
 
@@ -37,7 +37,10 @@ TestReporterController = stampit().enclose ->
       count = count + (suite.tests?.length or 0)
       for suite in suite.suites
         countTests(suite)
-    countTests mocha.suite
+
+    # MIKE: Commented out because mocha is not defined (error)
+    # countTests mocha.suite
+
     #TODO this is only counting client tests right now
     console.log "total test count", count
     ctrl.header.totalTests count
