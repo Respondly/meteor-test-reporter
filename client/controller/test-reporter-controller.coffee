@@ -33,6 +33,7 @@ TestReporterController = stampit().enclose ->
     ctrl.header.title(packagesUnderTest[0])
 
     @autorun =>
+      mochaAggregate = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mocha"})
       mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
       if mochaMetadata
         total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
@@ -53,6 +54,9 @@ TestReporterController = stampit().enclose ->
         ctrl.results.results(Reports.find({}))
       else
         ctrl.results.results Reports.find({result: ctrl.header.selectedTabId()})
+
+      #TODO communicate that tests are running or have finished
+      # ctrl.header.setAggregateResult mochaAggregate.result
 
     @ # Make chainable.
 
