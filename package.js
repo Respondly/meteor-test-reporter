@@ -17,10 +17,9 @@ Package.onUse(function(api) {
   api.use(['velocity:core@0.4.2']);
   api.export("Ctrl");
 
-  api.addFiles("server/autoupdate.js", ['server']);
-
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('shared/ns.js', ['client', 'server']);
+  api.addFiles('server/autoupdate.js', 'server');
   api.addFiles('client/ctrls/tr-header/tr-header.html', 'client');
   api.addFiles('client/ctrls/tr-header-tab/tr-header-tab.html', 'client');
   api.addFiles('client/ctrls/tr-reporter/tr-reporter.html', 'client');
