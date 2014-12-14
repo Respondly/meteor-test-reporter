@@ -19,6 +19,7 @@ Package.onUse(function(api) {
 
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('shared/ns.js', ['client', 'server']);
+  api.addFiles('shared/expect.coffee', ['client', 'server']);
   api.addFiles('server/autoupdate.js', 'server');
   api.addFiles('client/ctrls/tr-header/tr-header.html', 'client');
   api.addFiles('client/ctrls/tr-header-tab/tr-header-tab.html', 'client');
@@ -40,3 +41,17 @@ Package.onUse(function(api) {
 
 });
 
+
+
+
+Package.onTest(function (api) {
+  api.use(['mike:mocha-package@0.4.7', 'coffeescript']);
+  api.use(['templating', 'ui', 'spacebars'], 'client');
+  api.use(['respondly:util']);
+  api.use('respondly:test-reporter');
+
+  // Generated with: github.com/philcockfield/meteor-package-paths
+  api.addFiles('tests/shared/_init.coffee', ['client', 'server']);
+  api.addFiles('tests/shared/sample-tests.coffee', ['client', 'server']);
+
+});
