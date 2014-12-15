@@ -28,6 +28,7 @@ TestReporterController = stampit().enclose ->
     ctrl.header.title(packagesUnderTest[0])
 
     @autorun =>
+      # Calculate stats.
       mochaAggregate = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mocha"})
       mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
       if mochaMetadata
@@ -37,21 +38,35 @@ TestReporterController = stampit().enclose ->
       passed = Reports.find({result: 'passed'}).count()
       failed = Reports.find({result: 'failed'}).count()
 
-      ctrl.header.totalPassed passed
-      ctrl.header.totalFailed failed
-      ctrl.header.totalTests total
+      # Update header totals.
+      ctrl.header.totalPassed(passed)
+      ctrl.header.totalFailed(failed)
+      ctrl.header.totalTests(total)
       if total == 0
-        ctrl.header.percentComplete 0
+        ctrl.header.percentComplete(0)
       else
         ctrl.header.percentComplete(1.0 * (passed + failed) / total)
 
-      if ctrl.header.selectedTabId() == "total"
-        ctrl.results.results(Reports.find({}))
-      else
-        ctrl.results.results Reports.find({result: ctrl.header.selectedTabId()})
+      # if ctrl.header.selectedTabId() == "total"
+      #   ctrl.results.results(Reports.find({}))
+      # else
+      #   ctrl.results.results Reports.find({result: ctrl.header.selectedTabId()})
 
       #TODO communicate that tests are running or have finished
       # ctrl.header.setAggregateResult mochaAggregate.result
+
+    # Sync the results filter with the selected header tab.
+    @autorun =>
+        filter = ctrl.header.selectedTabId()
+        filter = null if filter is 'total'
+        ctrl.results.filter(filter)
+
+
+    # Display each new result.
+    Reports.find().observe
+      added: (doc) -> ctrl.results.add(doc)
+
+
 
     @ # Make chainable.
 
