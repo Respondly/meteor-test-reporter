@@ -64,7 +64,9 @@ TestReporterController = stampit().enclose ->
 
     # Display each new result.
     Reports.find().observe
-      added: (doc) -> ctrl.results.add(doc)
+      added: (doc) ->
+        spec = PKG.Spec().init(doc)
+        ctrl.results.add(spec)
 
 
 

@@ -13,10 +13,10 @@ Ctrl.define
 
       ###
       Adds a new test result.
-      @param doc: The Velocity test result document.
+      @param spec: The test result model.
       ###
-      add: (doc) ->
-        console.log '|| add', doc
+      add: (spec) ->
+        console.log '|| add', spec
 
 
     helpers:
