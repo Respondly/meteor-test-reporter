@@ -19,7 +19,6 @@ Package.onUse(function(api) {
 
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('shared/ns.js', ['client', 'server']);
-  api.addFiles('shared/expect.coffee', ['client', 'server']);
   api.addFiles('server/autoupdate.js', 'server');
   api.addFiles('client/ctrls/tr-header/tr-header.html', 'client');
   api.addFiles('client/ctrls/tr-header-tab/tr-header-tab.html', 'client');
