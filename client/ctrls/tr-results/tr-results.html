@@ -1,18 +1,4 @@
 <template name='tr-results'>
   <div class='tr-results'>
-    {{#each results}}
-    <pre><code>
-        {{{this.name}}}
-        ancestors: {{this.ancestors}}
-        client: {{this.isClient}}
-        duration: {{this.duration}}
-        pending: {{this.pending}}
-        result: {{this.result}}
-        server: {{this.isServer}}
-        timedOut: {{this.timedOut}}
-        failureMessage: {{{this.failureMessage}}}
-        failureStackTrace: {{{this.failureStackTrace}}}
-      </code></pre>
-    {{/each}}
   </div>
 </template>

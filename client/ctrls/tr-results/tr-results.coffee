@@ -1,12 +1,9 @@
 Ctrl.define
   'tr-results':
     init: ->
-      @autorun =>
-        console.log '@api.filter()', @api.filter()
+
 
     api:
-      results: (value) -> @prop 'results', value, default:[]
-
       ###
       REACTIVE: Gets or sets the top-level filter to apply to the result set.
       ###
