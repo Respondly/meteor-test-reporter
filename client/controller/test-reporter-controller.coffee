@@ -14,6 +14,7 @@ TestReporterController = stampit().enclose ->
   @param ctrl: The [test-reporter] UI control.
   ###
   @init = (ctrl) =>
+    # Retrieve collections.
     Reports = Package['velocity:core'].VelocityTestReports
     Aggregates = Package['velocity:core'].VelocityAggregateReports
 
@@ -57,8 +58,10 @@ TestReporterController = stampit().enclose ->
 
     # Sync the results filter with the selected header tab.
     @autorun =>
-        filter = ctrl.header.selectedTabId()
-        filter = null if filter is 'total'
+        state = ctrl.header.selectedTabId()
+        state = null if state is 'total'
+        filter = Object.clone(ctrl.results.filter() ? {})
+        filter.state = state
         ctrl.results.filter(filter)
 
 
