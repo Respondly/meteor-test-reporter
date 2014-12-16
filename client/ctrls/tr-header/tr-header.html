@@ -19,6 +19,13 @@
         {{> ctrl type='tr-header-tab' id='passed' }}
         {{> ctrl type='tr-header-tab' id='failed' }}
         <div class='tr-selection'></div>
+
+        {{#with elapsed}}
+          <div class='tr-elapsed'>
+            <span class='tr-time'>{{ time }}</span>
+            <span class='tr-unit'>{{ unit }}</span>
+          </div>
+        {{/with}}
       </div>
     </div>
 

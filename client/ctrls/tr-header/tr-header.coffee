@@ -41,6 +41,13 @@ Ctrl.define
       selectedTabId: (value) -> @prop 'selectedTabId', value, default:'total'
 
 
+      ###
+      REACTIVE: Gets or sets the number of seconds the tests took to execute.
+      ###
+      elapsedSeconds: (value) -> @prop 'elapsedSeconds', value, default:null
+
+
+
       # Totals
       totalTests: (value) -> @prop 'totalTests', value, default:0
       totalPassed: (value) -> @prop 'totalPassed', value, default:0
@@ -80,4 +87,12 @@ Ctrl.define
         percent = Number.range(0,1).clamp(percent)
         style = "width:#{ percent * 100 }%;"
         style
+
+
+      elapsed: ->
+        if seconds = @api.elapsedSeconds()
+          result =
+            time: seconds
+            unit: Util.string.plural(seconds, 'second')
+
 

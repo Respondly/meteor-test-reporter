@@ -25,36 +25,40 @@ TestReporterController = stampit().enclose ->
       if pkg.indexOf("local-test") == 0
         splitPkg = pkg.split(":")
         packagesUnderTest.push "#{splitPkg[1]}:#{splitPkg[2]}"
+
     #TODO set list of packages, not the title
     ctrl.header.title(packagesUnderTest[0])
 
+    # Sync progress.
+    startedAt = null
     @autorun =>
-      # Calculate stats.
-      mochaAggregate = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mocha"})
-      mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
-      if mochaMetadata
-        total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
-      else
-        total = 0
-      passed = Reports.find({result: 'passed'}).count()
-      failed = Reports.find({result: 'failed'}).count()
+        # Calculate stats.
+        mochaAggregate = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mocha"})
+        mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
+        if mochaMetadata
+          total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
+        else
+          total = 0
+        passed = Reports.find({result: 'passed'}).count()
+        failed = Reports.find({result: 'failed'}).count()
 
-      # Update header totals.
-      ctrl.header.totalPassed(passed)
-      ctrl.header.totalFailed(failed)
-      ctrl.header.totalTests(total)
-      if total == 0
-        ctrl.header.percentComplete(0)
-      else
-        ctrl.header.percentComplete(1.0 * (passed + failed) / total)
+        # Calculate complete percentage.
+        percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
+        isComplete = percentComplete is 1
 
-      # if ctrl.header.selectedTabId() == "total"
-      #   ctrl.results.results(Reports.find({}))
-      # else
-      #   ctrl.results.results Reports.find({result: ctrl.header.selectedTabId()})
+        # Update header totals.
+        ctrl.header.totalPassed(passed)
+        ctrl.header.totalFailed(failed)
+        ctrl.header.totalTests(total)
+        ctrl.header.percentComplete(percentComplete)
 
-      #TODO communicate that tests are running or have finished
-      # ctrl.header.setAggregateResult mochaAggregate.result
+
+        # Display elapsed time.
+        msecs = if isComplete
+            (startedAt.millisecondsAgo() / 1000).round(2)
+          else
+            null
+        ctrl.header.elapsedSeconds(msecs)
 
     # Sync the results filter with the selected header tab.
     @autorun =>
@@ -64,9 +68,11 @@ TestReporterController = stampit().enclose ->
         filter.state = state
         ctrl.results.filter(filter)
 
+
     # Display each new result.
     Reports.find().observe
       added: (doc) ->
+        startedAt = doc.timestamp unless startedAt?
         spec = PKG.Spec().init(doc)
         ctrl.results.add(spec)
 
