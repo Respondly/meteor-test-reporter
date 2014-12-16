@@ -15,5 +15,8 @@ describe.client 'Client Only', ->
   it 'my client', ->
 
 
+describe.server 'Server Only', ->
+  it 'my server', ->
+
 
 it 'Test has no suite', ->
