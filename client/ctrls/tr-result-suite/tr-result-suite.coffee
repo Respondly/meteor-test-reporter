@@ -1,6 +1,7 @@
 SELECTOR_SPECS = '> .tr-content > .tr-specs'
 SELECTOR_SUITES = '> .tr-content > .tr-suites'
 
+
 Ctrl.define
   'tr-result-suite':
     init: -> @specs = {}

@@ -44,7 +44,7 @@ TestReporterController = stampit().enclose ->
 
         # Calculate complete percentage.
         percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
-        isComplete = percentComplete is 1
+        isComplete = (passed + failed) is total
 
         # Update header totals.
         ctrl.header.totalPassed(passed)
@@ -52,9 +52,8 @@ TestReporterController = stampit().enclose ->
         ctrl.header.totalTests(total)
         ctrl.header.percentComplete(percentComplete)
 
-
         # Display elapsed time.
-        msecs = if isComplete
+        msecs = if isComplete and startedAt
             (startedAt.millisecondsAgo() / 1000).round(2)
           else
             null
