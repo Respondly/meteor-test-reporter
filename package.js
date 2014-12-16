@@ -12,6 +12,7 @@ Package.onUse(function(api) {
   api.use(['coffeescript', 'http']);
   api.use(['templating', 'ui', 'spacebars'], 'client');
   api.use('respondly:css-stylus@1.0.3');
+  api.use('respondly:css-common@1.0.1');
   api.use('respondly:ctrl@1.0.1');
   api.use('respondly:util@1.0.1');
   api.use(['velocity:core@0.4.2']);

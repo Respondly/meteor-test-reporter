@@ -13,7 +13,7 @@ PKG.Spec = stampit().enclose ->
   @param document: The Velocity document.
   ###
   @init = (document) ->
-    # Store state.
+    # Setup initial conditions.
     doc = document
     ancestors = doc.ancestors
     @name = doc.name
@@ -23,6 +23,10 @@ PKG.Spec = stampit().enclose ->
     # Add this spec to the parent suite.
     @parentSuite.childSpecs.push(@)
     @parentSuite.childSpecs.total(@parentSuite.childSpecs.total() + 1)
+
+    # Store state.
+    @isServer = doc.isServer
+    @isClient = doc.isClient
 
     # Finish up.
     return @

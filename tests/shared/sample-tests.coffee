@@ -16,4 +16,4 @@ describe.client 'Client Only', ->
 
 
 
-it 'No Suite', ->
+it 'Test has no suite', ->
