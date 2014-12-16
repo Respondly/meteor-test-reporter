@@ -64,14 +64,11 @@ TestReporterController = stampit().enclose ->
         filter.state = state
         ctrl.results.filter(filter)
 
-
     # Display each new result.
     Reports.find().observe
       added: (doc) ->
         spec = PKG.Spec().init(doc)
         ctrl.results.add(spec)
-
-
 
     @ # Make chainable.
 
@@ -87,3 +84,7 @@ PKG.TestReporterController = stampit.compose(
   Stamps.AutoRun
   TestReporterController
 )
+
+
+
+

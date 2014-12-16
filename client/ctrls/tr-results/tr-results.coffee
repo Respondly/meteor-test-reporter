@@ -15,7 +15,7 @@ Ctrl.define
       @param spec: The test result model.
       ###
       add: (spec) ->
-        console.log '|| add', spec
+        # console.log '|| add', spec
 
 
     helpers:
