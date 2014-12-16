@@ -4,7 +4,15 @@ Ctrl.define
       ###
       REACTIVE: Gets or sets the top-level filter to apply to the result set.
       ###
-      filter: (value) -> @prop 'filter', value, default:null
+      # filter: (value) -> @prop 'filter', value, default:null
+
+
+      ###
+      REACTIVE: Gets or sets the reports collection.
+      ###
+      # reportsCollection: (value) -> @prop ' reportsCollection', value
+
+
 
 
       ###
@@ -13,6 +21,7 @@ Ctrl.define
       @param callback: Invoked upon completion.
       ###
       add: (spec, callback) ->
+        # return
         insertSuite = (suite, callback) =>
               # Create a queue for callbacks.
               # This is to ensure that suite-ctrls are not inserted multiple
@@ -41,7 +50,6 @@ Ctrl.define
               else
                 appendCtrl()
 
-
         # Ensure the contianing suite elements are inserted
         # then render the spec.
         insertSuite spec.parentSuite, (suiteCtrl) =>
@@ -50,8 +58,14 @@ Ctrl.define
 
 
 
+      ###
+      Clears the test results.
+      ###
+      clear: ->
+        for suiteCtrl in @findChildren('tr-result-suite')
+          suiteCtrl.dispose()
 
-    helpers:
-      results: ->
-        @api.results()
+
+
+
 

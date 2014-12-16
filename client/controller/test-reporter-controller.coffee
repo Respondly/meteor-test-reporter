@@ -59,21 +59,30 @@ TestReporterController = stampit().enclose ->
             null
         ctrl.header.elapsedSeconds(msecs)
 
+    handle = null
+    observerResults = (filter) =>
+        # Display each new result.
+        handle?.stop()
+        handle = Reports.find().observe
+          added: (doc) ->
+            startedAt = doc.timestamp unless startedAt?
+            spec = PKG.Spec().init(doc)
+            ctrl.results.add(spec)
+
     # Sync the results filter with the selected header tab.
     @autorun =>
         state = ctrl.header.selectedTabId()
         state = null if state is 'total'
-        filter = Object.clone(ctrl.results.filter() ? {})
+        filter = {}
         filter.state = state
-        ctrl.results.filter(filter)
+        # ctrl.results.filter(filter)
+
+        ctrl.results.clear()
+        Util.delay =>
+
+          observerResults()
 
 
-    # Display each new result.
-    Reports.find().observe
-      added: (doc) ->
-        startedAt = doc.timestamp unless startedAt?
-        spec = PKG.Spec().init(doc)
-        ctrl.results.add(spec)
 
     @ # Make chainable.
 
