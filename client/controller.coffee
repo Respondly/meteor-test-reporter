@@ -59,8 +59,13 @@ TestReporterController = stampit().enclose ->
             null
         ctrl.header.elapsedSeconds(msecs)
 
+
+
     handle = null
     observerResults = (filter) =>
+
+        console.log 'filter', filter
+
         # Display each new result.
         handle?.stop()
         handle = Reports.find().observe
@@ -71,16 +76,16 @@ TestReporterController = stampit().enclose ->
 
     # Sync the results filter with the selected header tab.
     @autorun =>
+        # Derive the query filter.
         state = ctrl.header.selectedTabId()
         state = null if state is 'total'
         filter = {}
         filter.state = state
-        # ctrl.results.filter(filter)
 
         ctrl.results.clear()
         Util.delay =>
 
-          observerResults()
+          observerResults(filter)
 
 
 

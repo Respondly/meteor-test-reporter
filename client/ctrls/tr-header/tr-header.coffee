@@ -1,5 +1,14 @@
+localStorageSelectedTabId = (value) -> LocalStorage.prop 'tr-header:selectedTabId', value, default:'total'
+
+
+
 Ctrl.define
   'tr-header':
+    init: ->
+      # Retrieve initial selected tab ID from local storage.
+      @api.selectedTabId(localStorageSelectedTabId())
+
+
     ready: ->
       # Sync tab labels.
       @autorun =>
@@ -8,7 +17,10 @@ Ctrl.define
           @children.passed.label("#{ @api.totalPassed() } Passed")
           @children.failed.label("#{ @api.totalFailed() } Failed")
 
-      # Sync tab position
+      # Store selected tab ID in local storage.
+      @autorun => localStorageSelectedTabId(@api.selectedTabId())
+
+      # Sync tab position.
       @autorun =>
           selectedId = @api.selectedTabId()
           tabCtrl = @children[selectedId]
@@ -16,6 +28,9 @@ Ctrl.define
             left = tabCtrl.el().position().left
             left = Math.floor(left)
             @el('.tr-selection').css('transform', "translateX(#{ left }px)")
+
+      # Avoid sliding animation on first load.
+      Util.delay => @el().addClass('c-loaded')
 
 
     api:
