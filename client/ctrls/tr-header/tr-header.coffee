@@ -46,11 +46,6 @@ Ctrl.define
 
 
       ###
-      REACTIVE: Gets or sets the version of the test runner.
-      ###
-      version: (value) -> @prop 'version', value, default:'0.0.0'
-
-      ###
       REACTIVE: Gets or sets the ID of the currently selected tab.
       ###
       selectedTabId: (value) -> @prop 'selectedTabId', value, default:'total'

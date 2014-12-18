@@ -5,9 +5,8 @@ TestReporterController = stampit().enclose ->
   ctrl = null
 
 
-
-
   # METHODS ----------------------------------------------------------------------
+
 
   ###
   Initializes the test-reporter.
