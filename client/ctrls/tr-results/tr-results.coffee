@@ -2,26 +2,12 @@ Ctrl.define
   'tr-results':
     api:
       ###
-      REACTIVE: Gets or sets the top-level filter to apply to the result set.
-      ###
-      # filter: (value) -> @prop 'filter', value, default:null
-
-
-      ###
-      REACTIVE: Gets or sets the reports collection.
-      ###
-      # reportsCollection: (value) -> @prop ' reportsCollection', value
-
-
-
-
-      ###
       Adds a new test result.
       @param spec: The test result model.
       @param callback: Invoked upon completion.
       ###
       add: (spec, callback) ->
-        # return
+
         insertSuite = (suite, callback) =>
               # Create a queue for callbacks.
               # This is to ensure that suite-ctrls are not inserted multiple

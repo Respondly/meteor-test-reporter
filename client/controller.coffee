@@ -17,6 +17,8 @@ TestReporterController = stampit().enclose ->
     # Retrieve collections.
     Reports = Package['velocity:core'].VelocityTestReports
     Aggregates = Package['velocity:core'].VelocityAggregateReports
+    resultsHandle = null
+    isComplete = false
 
     #TODO
     #there's probably a better way to get the list of packages under test
@@ -30,11 +32,23 @@ TestReporterController = stampit().enclose ->
     ctrl.header.title(packagesUnderTest[0])
 
     # Sync progress.
-    startedAt = null
+    # startedAt = null
+
+    showElapsedTime = ->
+        startedAt = Reports.find({}, sort:{timestamp:1}).fetch()[0]?.timestamp
+        if startedAt
+          seconds = (startedAt.millisecondsAgo() / 1000).round(2)
+        else
+          seconds = null
+        ctrl.header.elapsedSeconds(seconds)
+
+
+
+    # Display results.
     @autorun =>
         # Calculate stats.
-        mochaAggregate = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mocha"})
-        mochaMetadata = Package['velocity:core'].VelocityAggregateReports.findOne({name:"mochaMetadata"})
+        mochaAggregate = Aggregates.findOne({name:"mocha"})
+        mochaMetadata = Aggregates.findOne({name:"mochaMetadata"})
         if mochaMetadata
           total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
         else
@@ -52,44 +66,49 @@ TestReporterController = stampit().enclose ->
         ctrl.header.totalTests(total)
         ctrl.header.percentComplete(percentComplete)
 
-        # Display elapsed time.
-        msecs = if isComplete and startedAt
-            (startedAt.millisecondsAgo() / 1000).round(2)
-          else
-            null
-        ctrl.header.elapsedSeconds(msecs)
+        if isComplete
+          showElapsedTime()
+          resultsHandle?.stop()
 
 
 
-    handle = null
-    observerResults = (filter) =>
 
-        console.log 'filter', filter
+    loadResults = (selector) ->
 
-        # Display each new result.
-        handle?.stop()
-        handle = Reports.find().observe
-          added: (doc) ->
-            startedAt = doc.timestamp unless startedAt?
+        addResult = (doc) ->
             spec = PKG.Spec().init(doc)
             ctrl.results.add(spec)
+
+        loadViaObserve = not isComplete
+        loadViaObserve = true
+        console.warn 'TODO - Load manually once isComplete is reliably retrieved, which should be once the report data is available.'
+        console.warn 'NOTE: Changing the filter tab will not work until this is done.'
+
+        cursor = Reports.find(selector)
+        if loadViaObserve
+          # Display each new result as it arrives.
+          resultsHandle?.stop()
+          resultsHandle = cursor.observe
+            added: (doc) -> addResult(doc)
+
+        else
+          # The test run is already complete. Load the items manually.
+          for doc in cursor.fetch()
+            addResult(doc)
+
+
 
     # Sync the results filter with the selected header tab.
     @autorun =>
         # Derive the query filter.
-        state = ctrl.header.selectedTabId()
-        state = null if state is 'total'
-        filter = {}
-        filter.state = state
-
+        tabId = ctrl.header.selectedTabId()
+        selector = {}
+        selector.result = tabId unless tabId is 'total'
         ctrl.results.clear()
-        Util.delay =>
-
-          observerResults(filter)
+        Util.delay => loadResults(selector)
 
 
-
-    @ # Make chainable.
+    return @ # Make chainable.
 
 
   # ----------------------------------------------------------------------
