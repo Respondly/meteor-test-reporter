@@ -80,8 +80,10 @@ TestReporterController = stampit().enclose ->
 
         loadViaObserve = not isComplete
         loadViaObserve = true
+
         console.warn 'TODO - Load manually once isComplete is reliably retrieved, which should be once the report data is available.'
         console.warn 'NOTE: Changing the filter tab will not work until this is done.'
+        console.log ''
 
         cursor = Reports.find(selector)
         if loadViaObserve

@@ -4,14 +4,22 @@ SELECTOR_SUITES = '> .tr-content > .tr-suites'
 
 Ctrl.define
   'tr-result-suite':
-    init: -> @specs = {}
+    init: ->
+      @specs = {}
+      @suite = @data
+
     ready: ->
-      # debugger
       @autorun =>
           @el(SELECTOR_SPECS).toggle(@api.totalSpecs() > 0)
 
 
     api:
+      ###
+      Determines if this is the root suite in the hierarchy.
+      ###
+      isRoot: -> not @suite.parentSuite?
+
+
       ###
       REACTIVE: Gets the total number of specs that have been added to the suite.
       ###
@@ -52,4 +60,13 @@ Ctrl.define
           ctrl.onReady =>
               onReady(ctrl)
               def.isLoading = false
+
+
+
+    helpers:
+      cssClass: ->
+        css = ''
+        css += 'tr-root' if @api.isRoot()
+        css
+
 

@@ -1,6 +1,16 @@
 <template name='tr-result-spec'>
   <div class='tr-result-spec'>
-    <code>{{ instance }}</code>
-    {{ name }} - {{ domain }}
+    <h2>
+      {{#if api.passed}}
+        <span class='tr-tick'>&#10004;</span>
+      {{/if}}
+
+      {{#if api.failed}}
+        <span class='tr-cross'>&#10008;</span>
+      {{/if}}
+
+      {{ name }}
+    </h2>
+
   </div>
 </template>

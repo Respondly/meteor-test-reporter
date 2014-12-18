@@ -39,6 +39,12 @@ PKG.Spec = stampit().enclose ->
     @isServer = doc.isServer
     @isClient = doc.isClient
 
+    @passed = null
+    @failed = null
+    if not doc.pending
+      @passed = doc.result is 'passed'
+      @failed = doc.result is 'failed'
+
     # Finish up.
     return @
 
