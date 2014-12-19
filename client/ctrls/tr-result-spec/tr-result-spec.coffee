@@ -57,7 +57,6 @@ Ctrl.define
 formatElapsed = (msecs) ->
   if msecs?
     if msecs > 500
-      console.log 'msecs', msecs
       time = (msecs / 1000).round(1)
       unit = 's'
     else
