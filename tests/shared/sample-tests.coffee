@@ -1,5 +1,7 @@
 LOREM = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.'
 
+
+
 describe 'My Samples, with comma', ->
   describe 'Nested 1', ->
     describe 'Nested 1.1', ->
@@ -21,7 +23,9 @@ describe 'My Samples, with comma', ->
         throw new Error('Client fail') if Meteor.isClient
 
       it 'Fails on server but not on client', ->
-        throw new Error('Client fail') if Meteor.isServer
+        if Meteor.isServer
+          throw new Error('Server fail')
+
 
 
 
