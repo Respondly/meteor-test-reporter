@@ -11,7 +11,7 @@ Ctrl.define
       do =>
           el = $(document)
           onScroll = =>
-              @helpers.isHeaderFixed(el.scrollTop() > 225)
+              @helpers.isHeaderFixed(el.scrollTop() > 220)
           onScroll = onScroll.throttle(50)
           el.scroll (e) -> onScroll()
           onScroll()
