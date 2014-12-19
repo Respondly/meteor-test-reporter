@@ -21,6 +21,13 @@ code
 .tr-content-center
   position relative
   margin 0 auto
-  width 900px
+  @media $WIDTH_WIDE
+    width 900px
+
+  @media $WIDTH_NORMAL
+    width 600px
+
+  @media $WIDTH_NARROW
+    width 400px
 
 
