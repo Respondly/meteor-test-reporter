@@ -12,14 +12,24 @@
       {{ name }}
     </h2>
 
-      <div class='tr-right'>
-        {{#with badge}}
-          <div class='tr-badge'>
-            {{ this }}
-          </div>
+    <div class='tr-right'>
+      {{#with badge}}
+        <div class='tr-badge'>
+          {{ this }}
+        </div>
+      {{/with}}
+    </div>
+
+    {{#if api.failed}}
+      <div class='tr-errors'>
+        {{#with api.clientResult.error}}
+          {{> ctrl type='tr-result-error' data=this }}
+        {{/with}}
+        {{#with api.serverResult.error}}
+          {{> ctrl type='tr-result-error' data=this }}
         {{/with}}
       </div>
-
+    {{/if}}
   </div>
 </template>
 

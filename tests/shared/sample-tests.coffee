@@ -12,7 +12,7 @@ describe 'My Samples, with comma', ->
         it 'Test that passes', ->
 
         it 'Async test', (done) ->
-          Util.delay 1752, => done()
+          Util.delay 123, => done()
 
 
   describe 'Nested 2', ->

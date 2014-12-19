@@ -47,8 +47,12 @@ PKG.Spec = stampit().enclose ->
       @failed = doc.result is 'failed'
 
     if @failed
-      console.log 'doc', doc
-
+      @error =
+        message: doc.failureMessage
+        stackTrace: doc.failureStackTrace
+        domain: @executionDomain
+        isServer: @isServer
+        isClient: @isClient
 
     # Finish up.
     return @
