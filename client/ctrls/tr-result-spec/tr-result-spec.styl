@@ -2,8 +2,44 @@
 
 
 .tr-result-spec
-  margin-bottom 15px
+  position relative
+  margin-bottom 10px
+  padding-bottom 8px
+  padding-top 5px
+  cursor default
+
+  border-bottom dashed 1px rgba(black, 0.15)
+  &:last-child
+    border-bottom none
+
+  // ------------------------------------------------------
+
+
+  &.tr-client
+    padding-right 65px
+  &.tr-server
+    padding-right 70px
+  &.tr-client-server
+    padding-right 115px
+
+  // ------------------------------------------------------
+
   .tr-tick
     color $TR_GREEN
   .tr-cross
     color $TR_RED
+
+
+
+  // ------------------------------------------------------
+
+
+  .tr-badge
+    abs-pos null, 5, 0, null
+    padding 3px 10px
+    border-radius 4px
+    text-transform uppercase
+    background rgba(black, 0.1)
+    color rgba(black, 0.3)
+    font-size 11px
+

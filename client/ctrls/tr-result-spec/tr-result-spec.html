@@ -1,5 +1,5 @@
 <template name='tr-result-spec'>
-  <div class='tr-result-spec'>
+  <div class='tr-result-spec {{ cssClass }}'>
     <h2>
       {{#if api.passed}}
         <span class='tr-tick'>&#10004;</span>
@@ -12,5 +12,10 @@
       {{ name }}
     </h2>
 
+    {{#with domain}}
+      <div class='tr-badge'>{{ this }}</div>
+    {{/with}}
   </div>
 </template>
+
+
