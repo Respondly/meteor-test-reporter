@@ -12,9 +12,14 @@
       {{ name }}
     </h2>
 
-    {{#with domain}}
-      <div class='tr-badge'>{{ this }}</div>
-    {{/with}}
+      <div class='tr-right'>
+        {{#with badge}}
+          <div class='tr-badge'>
+            {{ this }}
+          </div>
+        {{/with}}
+      </div>
+
   </div>
 </template>
 

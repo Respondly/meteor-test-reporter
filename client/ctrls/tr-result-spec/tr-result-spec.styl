@@ -14,13 +14,13 @@
 
   // ------------------------------------------------------
 
-
+  BADGE_PADDING = 30
   &.tr-client
-    padding-right 65px
+    padding-right 65px + BADGE_PADDING
   &.tr-server
-    padding-right 70px
+    padding-right 70px + BADGE_PADDING
   &.tr-client-server
-    padding-right 115px
+    padding-right 115px + BADGE_PADDING
 
   // ------------------------------------------------------
 
@@ -29,17 +29,19 @@
   .tr-cross
     color $TR_RED
 
-
-
   // ------------------------------------------------------
 
-
-  .tr-badge
+  .tr-right
     abs-pos null, 5, 0, null
-    padding 3px 10px
-    border-radius 4px
-    text-transform uppercase
-    background rgba(black, 0.1)
-    color rgba(black, 0.3)
-    font-size 11px
+    .tr-badge
+      padding 3px 10px
+      border-radius 4px
+      background rgba(black, 0.05)
+      color rgba(black, 0.3)
+      font-size 11px
+      font-weight 600
+
+    .tr-time
+      font-size 13px
+      color rgba(black, 0.3)
 

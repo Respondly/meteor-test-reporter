@@ -11,6 +11,9 @@ describe 'My Samples, with comma', ->
       describe "Nested suite with a really long name #{ LOREM }", ->
         it 'Test that passes', ->
 
+        it 'Async test', (done) ->
+          Util.delay 1752, => done()
+
 
   describe 'Nested 2', ->
       it 'Test 3', ->
