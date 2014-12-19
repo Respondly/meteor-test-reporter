@@ -49,6 +49,7 @@ TestReporterController = stampit().enclose ->
         mochaAggregate = Aggregates.findOne({name:"mocha"})
         mochaMetadata = Aggregates.findOne({name:"mochaMetadata"})
         aggregateCompleted = Aggregates.findOne({name: 'aggregateComplete'})
+        aggregateResult = Aggregates.findOne({name: 'aggregateResult'})
         if mochaMetadata
           total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
         else
@@ -59,6 +60,11 @@ TestReporterController = stampit().enclose ->
         # Calculate complete percentage.
         percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
         isComplete = aggregateCompleted?.result == "completed"
+
+        if aggregateCompleted
+          $(document.body).attr("data-completed", "#{isComplete}")
+        if aggregateResult
+          $(document.body).attr("data-result", "#{aggregateResult.result}")
 
         # Update header totals.
         ctrl.header.totalPassed(passed)
