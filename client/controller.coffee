@@ -48,6 +48,7 @@ TestReporterController = stampit().enclose ->
         # Calculate stats.
         mochaAggregate = Aggregates.findOne({name:"mocha"})
         mochaMetadata = Aggregates.findOne({name:"mochaMetadata"})
+        aggregateCompleted = Aggregates.findOne({name: 'aggregateComplete'})
         if mochaMetadata
           total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
         else
@@ -57,7 +58,7 @@ TestReporterController = stampit().enclose ->
 
         # Calculate complete percentage.
         percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
-        isComplete = (passed + failed) is total
+        isComplete = aggregateCompleted?.result == "completed"
 
         # Update header totals.
         ctrl.header.totalPassed(passed)
@@ -79,11 +80,6 @@ TestReporterController = stampit().enclose ->
             ctrl.results.add(spec)
 
         loadViaObserve = not isComplete
-        loadViaObserve = true
-
-        console.warn 'TODO - Load manually once isComplete is reliably retrieved, which should be once the report data is available.'
-        console.warn 'NOTE: Changing the filter tab will not work until this is done.'
-        console.log ''
 
         cursor = Reports.find(selector)
         if loadViaObserve
