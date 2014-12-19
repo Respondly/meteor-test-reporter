@@ -26,6 +26,11 @@ PKG.Spec = stampit().enclose ->
     @id += "#{ @parentSuite.id }:" if @parentSuite.id
     @id += Util.hash(@name)
 
+    # Store state.
+    @isServer = doc.isServer
+    @isClient = doc.isClient
+    @duration = doc.duration
+
     # Store the UID (Unqiue)
     # NOTE: This is unique for the client or server.
     @executionDomain = if @isServer then 'server' else 'client'
@@ -34,11 +39,6 @@ PKG.Spec = stampit().enclose ->
     # Add this spec to the parent suite.
     @parentSuite.childSpecs.push(@)
     @parentSuite.childSpecs.total(@parentSuite.childSpecs.total() + 1)
-
-    # Store state.
-    @isServer = doc.isServer
-    @isClient = doc.isClient
-    @duration = doc.duration
 
     @passed = null
     @failed = null
