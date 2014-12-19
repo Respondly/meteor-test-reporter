@@ -36,7 +36,7 @@ TestReporterController = stampit().enclose ->
     showElapsedTime = ->
         startedAt = Reports.find({}, sort:{timestamp:1}).fetch()[0]?.timestamp
         if startedAt
-          seconds = (startedAt.millisecondsAgo() / 1000).round(2)
+          seconds = (startedAt.millisecondsAgo() / 1000).round(1)
         else
           seconds = null
         ctrl.header.elapsedSeconds(seconds)
