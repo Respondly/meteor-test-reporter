@@ -84,39 +84,48 @@ TestReporterController = stampit().enclose ->
         ctrl.header.percentComplete(percentComplete)
 
 
-
     # Load results.
-    resultsHandle = null
-    loadResults = (selector) =>
+    do =>
         addResult = (doc) =>
               spec = PKG.Spec().init(doc)
               ctrl.results.add(spec)
 
-        isComplete = @isComplete()
-        resultsHandle?.stop() if isComplete
+        queue = []
+        renderQueue = =>
+              docs = Object.clone(queue)
+              queue = []
+              addResult(doc) for doc in docs
+              if not @isComplete()
+                Util.delay 500, => renderQueue()
+        renderQueue()
 
-        cursor = Reports.find(selector)
-        if isComplete
-          # The test run is already complete. Load the items manually.
-          addResult(doc) for doc in cursor.fetch()
+        resultsHandle = null
+        loadResults = (selector) =>
 
-        else
-          # Display each new result as it arrives.
-          resultsHandle?.stop()
-          resultsHandle = cursor.observe
-            added: (doc) -> addResult(doc)
+            isComplete = @isComplete()
+            resultsHandle?.stop() if isComplete
 
-    getSelector = ->
-        tabId = ctrl.header.selectedTabId()
-        selector = {}
-        selector.result = tabId unless tabId is 'total'
-        selector
+            cursor = Reports.find(selector)
+            if isComplete
+              # The test run is already complete. Load the items manually.
+              addResult(doc) for doc in cursor.fetch()
 
-    # Sync the results filter with the selected header tab.
-    @autorun =>
-        selector = getSelector()
-        ctrl.results.clear()
-        Util.delay => loadResults(selector)
+            else
+              # Display each new result as it arrives.
+              resultsHandle?.stop()
+              resultsHandle = cursor.observe
+                added: (doc) -> queue.push(doc)
+
+
+        # Sync the results filter with the selected header tab.
+        @autorun =>
+            tabId = ctrl.header.selectedTabId()
+            selector = {}
+            selector.result = tabId unless tabId is 'total'
+            selector
+
+            ctrl.results.clear()
+            Util.delay => loadResults(selector)
 
     return @ # Make chainable.
 
