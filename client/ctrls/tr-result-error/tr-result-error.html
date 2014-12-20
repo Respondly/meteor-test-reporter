@@ -1,9 +1,19 @@
 <template name='tr-result-error'>
   <div class='tr-result-error'>
-    <h2>{{ title }}</h2>
+    <h2>
+      <div class='tr-badge'>{{ domain }}</div>
+      {{ title }}
+    </h2>
 
     <div class='tr-trace'>
-      {{ data.stackTrace }}
+      <ul>
+        {{#each stackTrace}}
+          <li>
+            <div class='tr-line'>{{ line }}</div>
+            <div class='tr-path'>{{ path }}</div>
+          </li>
+        {{/each}}
+      </ul>
     </div>
   </div>
 </template>

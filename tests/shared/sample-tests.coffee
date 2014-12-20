@@ -20,7 +20,9 @@ describe 'My Samples, with comma', ->
   describe 'Nested 2', ->
       it 'Test 3', ->
       it 'Fails on client but not on server', ->
-        throw new Error('Client fail') if Meteor.isClient
+        if Meteor.isClient
+          # throw new Error('Client fail')
+          "foo".noMethod()
 
       it 'Fails on server but not on client', ->
         if Meteor.isServer
