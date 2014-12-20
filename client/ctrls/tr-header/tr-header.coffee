@@ -33,6 +33,7 @@ Ctrl.define
       Util.delay => @el().addClass('c-loaded')
 
 
+
     api:
       ###
       REACTIVE: Gets or sets the propgress percentage (0..1)
@@ -98,11 +99,16 @@ Ctrl.define
         style = "width:#{ percent * 100 }%;"
         style
 
-
       elapsed: ->
         if seconds = @api.elapsedSeconds()
           result =
             time: seconds
             unit: Util.string.plural(seconds, 'second')
+
+      percent: ->
+        percent = @api.percentComplete()
+        percent = 0 if Object.isNaN(percent)
+        (percent * 100).round()
+
 
 
