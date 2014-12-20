@@ -1,5 +1,6 @@
 Ctrl.define
   'tr-results':
+
     api:
       ###
       Adds a new test result.

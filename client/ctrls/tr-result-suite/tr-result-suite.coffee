@@ -13,6 +13,9 @@ Ctrl.define
           @el(SELECTOR_SPECS).toggle(@api.totalSpecs() > 0)
 
 
+    destroyed: -> delete @suite.ctrl
+
+
     api:
       ###
       Determines if this is the root suite in the hierarchy.

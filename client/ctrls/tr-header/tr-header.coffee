@@ -12,10 +12,14 @@ Ctrl.define
     ready: ->
       # Sync tab labels.
       @autorun =>
+          format = (number) ->
+            return '-' if Object.isNaN(number)
+            number
+
           total = @api.totalTests()
-          @children.total.label("#{ total } #{ Util.string.plural(total, 'test') }")
-          @children.passed.label("#{ @api.totalPassed() } Passed")
-          @children.failed.label("#{ @api.totalFailed() } Failed")
+          @children.total.label("#{ format(total) } #{ Util.string.plural(total, 'test') }")
+          @children.passed.label("#{ format(@api.totalPassed()) } Passed")
+          @children.failed.label("#{ format(@api.totalFailed()) } Failed")
 
       # Store selected tab ID in local storage.
       @autorun => localStorageSelectedTabId(@api.selectedTabId())
@@ -30,7 +34,7 @@ Ctrl.define
             @el('.tr-selection').css('transform', "translateX(#{ left }px)")
 
       # Avoid sliding animation on first load.
-      Util.delay => @el().addClass('c-loaded')
+      Util.delay => @el().addClass('tr-loaded')
 
 
 

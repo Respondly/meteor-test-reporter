@@ -18,6 +18,16 @@ Ctrl.define
 
 
 
+    api:
+      isComplete: (value) -> @prop 'isComplete', value, default:false
+
+
     helpers:
       isHeaderFixed: (value) -> @prop 'isHeaderFixed', value, default:false
-      cssClass: -> 'tr-header-fixed' if @helpers.isHeaderFixed()
+      cssClass: ->
+        isComplete = @api.isComplete()
+        css = ''
+        css += 'tr-header-fixed' if @helpers.isHeaderFixed()
+        css += ' tr-running' if not isComplete
+        css += ' tr-complete' if isComplete
+        css

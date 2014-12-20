@@ -2,6 +2,8 @@ Ctrl.define
   'tr-result-spec':
     init: -> @spec = @data
 
+    destroyed: -> delete @spec.ctrl
+
 
     api:
       clientResult: (value) -> @prop 'clientResult', value

@@ -3,9 +3,12 @@ The root controller for the test reporter.
 ###
 TestReporterController = stampit().enclose ->
   ctrl = null
+  hash = new ReactiveHash(onlyOnChange:true)
 
 
   # METHODS ----------------------------------------------------------------------
+
+  @isComplete = (value) -> hash.prop 'isComplete', value, default:false
 
 
   ###
@@ -16,8 +19,6 @@ TestReporterController = stampit().enclose ->
     # Retrieve collections.
     Reports = Package['velocity:core'].VelocityTestReports
     Aggregates = Package['velocity:core'].VelocityAggregateReports
-    resultsHandle = null
-    isComplete = false
 
     #TODO
     #there's probably a better way to get the list of packages under test
@@ -31,16 +32,24 @@ TestReporterController = stampit().enclose ->
     ctrl.header.title(packagesUnderTest[0])
 
     # Sync progress.
-    # startedAt = null
+    showElapsedTime = =>
+          startedAt = Reports.find({}, sort:{timestamp:1}).fetch()[0]?.timestamp
+          if startedAt
+            seconds = (startedAt.millisecondsAgo() / 1000).round(1)
+          else
+            seconds = 0
+          ctrl.header.elapsedSeconds(seconds)
 
-    showElapsedTime = ->
-        startedAt = Reports.find({}, sort:{timestamp:1}).fetch()[0]?.timestamp
-        if startedAt
-          seconds = (startedAt.millisecondsAgo() / 1000).round(1)
-        else
-          seconds = null
-        ctrl.header.elapsedSeconds(seconds)
+          # Loop on a timer if not complete.
+          if not @isComplete()
+            Util.delay 100, => showElapsedTime()
 
+    showElapsedTime()
+
+    @autorun =>
+      isComplete = @isComplete()
+      ctrl.isComplete(isComplete)
+      showElapsedTime() if isComplete
 
 
     # Display results.
@@ -60,11 +69,13 @@ TestReporterController = stampit().enclose ->
         # Calculate complete percentage.
         percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
         isComplete = aggregateCompleted?.result == "completed"
+        @isComplete(isComplete) # Store in reactive property.
 
+        # Store data attributes.
         if aggregateCompleted
-          $(document.body).attr("data-completed", "#{isComplete}")
+          $(document.body).attr("data-completed", "#{ isComplete }")
         if aggregateResult
-          $(document.body).attr("data-result", "#{aggregateResult.result}")
+          $(document.body).attr("data-result", "#{ aggregateResult.result }")
 
         # Update header totals.
         ctrl.header.totalPassed(passed)
@@ -72,44 +83,40 @@ TestReporterController = stampit().enclose ->
         ctrl.header.totalTests(total)
         ctrl.header.percentComplete(percentComplete)
 
-        if isComplete
-          showElapsedTime()
-          resultsHandle?.stop()
 
 
+    # Load results.
+    resultsHandle = null
+    loadResults = (selector) =>
+        addResult = (doc) =>
+              spec = PKG.Spec().init(doc)
+              ctrl.results.add(spec)
 
-
-    loadResults = (selector) ->
-
-        addResult = (doc) ->
-            spec = PKG.Spec().init(doc)
-            ctrl.results.add(spec)
-
-        loadViaObserve = not isComplete
+        isComplete = @isComplete()
+        resultsHandle?.stop() if isComplete
 
         cursor = Reports.find(selector)
-        if loadViaObserve
+        if isComplete
+          # The test run is already complete. Load the items manually.
+          addResult(doc) for doc in cursor.fetch()
+
+        else
           # Display each new result as it arrives.
           resultsHandle?.stop()
           resultsHandle = cursor.observe
             added: (doc) -> addResult(doc)
 
-        else
-          # The test run is already complete. Load the items manually.
-          for doc in cursor.fetch()
-            addResult(doc)
-
-
-
-    # Sync the results filter with the selected header tab.
-    @autorun =>
-        # Derive the query filter.
+    getSelector = ->
         tabId = ctrl.header.selectedTabId()
         selector = {}
         selector.result = tabId unless tabId is 'total'
+        selector
+
+    # Sync the results filter with the selected header tab.
+    @autorun =>
+        selector = getSelector()
         ctrl.results.clear()
         Util.delay => loadResults(selector)
-
 
     return @ # Make chainable.
 
