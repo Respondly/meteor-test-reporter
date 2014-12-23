@@ -48,7 +48,6 @@ TestReporterController = stampit().enclose ->
 
     @autorun =>
       isComplete = @isComplete()
-      ctrl.isComplete(isComplete)
       showElapsedTime() if isComplete
 
 

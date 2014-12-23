@@ -16,17 +16,23 @@ Ctrl.define
           el.scroll (e) -> onScroll()
           onScroll()
 
-      # Control whether the "thumbs-up" icon is shown.
+      # Sync empty list icon visibility.
       @autorun =>
           resultCtrl = @ctrl.results
           isComplete = @api.isComplete()
           filter = @ctrl.header.selectedTabId()
-          resultCtrl.isEmptySuccessVisible(isComplete and filter is 'failed' and resultCtrl.count() is 0)
+          isEmpty = resultCtrl.count() is 0
+          if @api.isComplete()
+            resultCtrl.isEmptySuccessVisible(filter is 'failed' and isEmpty)
+            resultCtrl.isEmptyFailureVisible(filter is 'passed' and isEmpty)
+          else
+            resultCtrl.isEmptySuccessVisible(false)
+            resultCtrl.isEmptyFailureVisible(false)
 
 
 
     api:
-      isComplete: (value) -> @prop 'isComplete', value, default:false
+      isComplete: (value) -> @ctrl.header?.percentComplete() is 1
 
 
     helpers:

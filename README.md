@@ -10,6 +10,12 @@ Render the test-reporter UI control:
 
 
 
+## Credits
+
+"Sad Bunny" icon: Brad Ashburn - http://thenounproject.com/term/sad-bunny/56111/
+
+
+
 
 ## License (MIT)
 

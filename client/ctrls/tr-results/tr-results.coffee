@@ -2,7 +2,9 @@ Ctrl.define
   'tr-results':
     ready: ->
       @autorun =>
-          isVisible = not @api.isEmptySuccessVisible()
+          isVisible = true
+          isVisible = false if @api.isEmptySuccessVisible()
+          isVisible = false if @api.isEmptyFailureVisible()
           @el('.tr-results-list').toggle(isVisible)
 
 
@@ -16,9 +18,18 @@ Ctrl.define
 
 
       ###
-      REACTIVE Gets or sets whether the "thumps up" icon is visible
+      REACTIVE Gets or sets whether the icon shown when the list
+      is empty, but the test run was successful, is visible.
       ###
       isEmptySuccessVisible: (value) -> @prop 'isEmptySuccessVisible', value, default:false
+
+
+      ###
+      REACTIVE Gets or sets whether the icon shown when the list
+      is empty, and there were failures.
+      ###
+      isEmptyFailureVisible: (value) -> @prop 'isEmptyFailureVisible', value, default:false
+
 
 
       ###
