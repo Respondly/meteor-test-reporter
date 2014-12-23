@@ -16,6 +16,13 @@ Ctrl.define
           el.scroll (e) -> onScroll()
           onScroll()
 
+      # Control whether the "thumbs-up" icon is shown.
+      @autorun =>
+          resultCtrl = @ctrl.results
+          isComplete = @api.isComplete()
+          filter = @ctrl.header.selectedTabId()
+          resultCtrl.isEmptySuccessVisible(isComplete and filter is 'failed' and resultCtrl.count() is 0)
+
 
 
     api:

@@ -1,7 +1,26 @@
 Ctrl.define
   'tr-results':
+    ready: ->
+      @autorun =>
+          isVisible = not @api.isEmptySuccessVisible()
+          @el('.tr-results-list').toggle(isVisible)
+
+
+
 
     api:
+      ###
+      REACTIVE Gets the total number of result items that have been added.
+      ###
+      count: (value) -> @prop 'count', value, default:0
+
+
+      ###
+      REACTIVE Gets or sets whether the "thumps up" icon is visible
+      ###
+      isEmptySuccessVisible: (value) -> @prop 'isEmptySuccessVisible', value, default:false
+
+
       ###
       Adds a new test result.
       @param spec: The test result model.
@@ -25,7 +44,7 @@ Ctrl.define
               suite.isLoading = true
 
               appendCtrl = (suiteCtrl) =>
-                  el = if suiteCtrl? then suiteCtrl.elSuites() else @el()
+                  el = if suiteCtrl? then suiteCtrl.elSuites() else @el('> .tr-results-list')
                   suite.ctrl = ctrl = @appendCtrl('tr-result-suite', el, data:suite)
                   ctrl.onReady =>
                       suite.isLoading = false
@@ -41,6 +60,7 @@ Ctrl.define
         # then render the spec.
         insertSuite spec.parentSuite, (suiteCtrl) =>
             suiteCtrl.addSpec(spec)
+            @api.count(@api.count() + 1)
             callback?()
 
 
@@ -49,8 +69,8 @@ Ctrl.define
       Clears the test results.
       ###
       clear: ->
-        for suiteCtrl in @findChildren('tr-result-suite')
-          suiteCtrl.dispose()
+        suiteCtrl.dispose() for suiteCtrl in @findChildren('tr-result-suite')
+        @api.count(0)
 
 
 
