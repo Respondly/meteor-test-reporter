@@ -34,10 +34,11 @@ Ctrl.define
 
       ###
       Adds a new test result.
-      @param spec: The test result model.
+      @param spec: The mongo documents containing the test result.
       @param callback: Invoked upon completion.
       ###
-      add: (spec, callback) ->
+      add: (doc, callback) ->
+        spec = PKG.Spec().init(doc)
 
         insertSuite = (suite, callback) =>
               # Create a queue for callbacks.

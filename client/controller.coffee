@@ -85,9 +85,7 @@ TestReporterController = stampit().enclose ->
 
     # Load results.
     do =>
-        addResult = (doc) =>
-              spec = PKG.Spec().init(doc)
-              ctrl.results.add(spec)
+        addResult = (doc) => ctrl.results.add(doc)
 
         queue = []
         renderQueue = =>
