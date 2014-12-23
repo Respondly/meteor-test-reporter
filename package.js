@@ -44,11 +44,14 @@ Package.onUse(function(api) {
   api.addFiles('client/ctrls/tr-results/tr-results.coffee', 'client');
   api.addFiles('client/ctrls/tr-results/tr-results.styl', 'client');
   api.addFiles('client/ctrls/css.styl', 'client');
+  api.addFiles('client/ctrls/page.coffee', 'client');
   api.addFiles('client/css-mixins/test-runner.import.styl', 'client');
   api.addFiles('client/models/spec.coffee', 'client');
   api.addFiles('client/models/suite.coffee', 'client');
   api.addFiles('client/controller.coffee', 'client');
   api.addFiles('client/css.styl', 'client');
+  api.addFiles('images/sad-bunny.svg', ['client', 'server']);
+  api.addFiles('images/thumbs-up.svg', ['client', 'server']);
 
 });
 
