@@ -17,17 +17,26 @@ Ctrl.define
           onScroll()
 
       # Sync empty list icon visibility.
+      updateEmptyListState = =>
+            resultCtrls = @ctrl.results
+            isComplete = @api.isComplete()
+            filter = @ctrl.header.selectedTabId()
+            isEmpty = resultCtrls.count() is 0
+            if @api.isComplete()
+              resultCtrls.isEmptySuccessVisible(filter is 'failed' and isEmpty)
+              resultCtrls.isEmptyFailureVisible(filter is 'passed' and isEmpty)
+            else
+              resultCtrls.isEmptySuccessVisible(false)
+              resultCtrls.isEmptyFailureVisible(false)
+
+        updateEmptyListState = updateEmptyListState.debounce(100)
+
       @autorun =>
-          resultCtrl = @ctrl.results
-          isComplete = @api.isComplete()
-          filter = @ctrl.header.selectedTabId()
-          isEmpty = resultCtrl.count() is 0
-          if @api.isComplete()
-            resultCtrl.isEmptySuccessVisible(filter is 'failed' and isEmpty)
-            resultCtrl.isEmptyFailureVisible(filter is 'passed' and isEmpty)
-          else
-            resultCtrl.isEmptySuccessVisible(false)
-            resultCtrl.isEmptyFailureVisible(false)
+          resultCtrls = @ctrl.results
+          @ctrl.header.selectedTabId()  # Hook into reactive callback.
+          @api.isComplete()             # Hook into reactive callback.
+          resultCtrls.count()            # Hook into reactive callback.
+          updateEmptyListState()
 
 
 
