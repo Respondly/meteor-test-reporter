@@ -1,6 +1,8 @@
 # Test Reporter
 Shows progress and output from a test runner.
 
+![Diagram](https://cloud.githubusercontent.com/assets/185555/5636070/93a97b54-9653-11e4-9135-964691d40cac.png)
+
 
 
 ## Usage
