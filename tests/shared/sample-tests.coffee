@@ -7,7 +7,8 @@ describe 'My Samples, with comma', ->
     describe 'Nested 1.1', ->
       it 'Test 1', -> expect(123).to.equal 123
       it 'Test 2', ->
-      it 'Fails 1', -> expect(true).to.equal false
+      # uncomment to see what failing tests look like
+      # it 'Fails 1', -> expect(true).to.equal false
       it "Has a really long name #{ LOREM }", ->
 
       describe "Nested suite with a really long name #{ LOREM }", ->
@@ -17,16 +18,18 @@ describe 'My Samples, with comma', ->
           Util.delay 123, => done()
 
 
-  describe 'Nested 2', ->
-      it 'Test 3', ->
-      it 'Fails on client but not on server', ->
-        if Meteor.isClient
-          # throw new Error('Client fail')
-          "foo".noMethod()
+  #uncomment to see what failing tests look like
 
-      it 'Fails on server but not on client', ->
-        if Meteor.isServer
-          throw new Error('Server fail')
+  # describe 'Nested 2', ->
+  #     it 'Test 3', ->
+  #     it 'Fails on client but not on server', ->
+  #       if Meteor.isClient
+  #         # throw new Error('Client fail')
+  #         "foo".noMethod()
+  #
+  #     it 'Fails on server but not on client', ->
+  #       if Meteor.isServer
+  #         throw new Error('Server fail')
 
 
 
