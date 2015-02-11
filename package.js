@@ -67,5 +67,7 @@ Package.onTest(function (api) {
   // Generated with: github.com/philcockfield/meteor-package-paths
   api.addFiles('tests/shared/_init.coffee', ['client', 'server']);
   api.addFiles('tests/shared/sample-tests.coffee', ['client', 'server']);
+  api.addFiles('tests/server/edge-cases/server-edge-cases.coffee', 'server');
+  api.addFiles('tests/client/edge-cases/client-edge-cases.coffee', 'client');
 
 });
