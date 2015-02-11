@@ -5,6 +5,10 @@
         <span class='tr-tick'>&#10004;</span>
       {{/if}}
 
+      {{#if api.skipped}}
+        {{! some other icon maybe..?}}
+      {{/if}}
+
       {{#if api.failed}}
         <span class='tr-cross'>&#10008;</span>
       {{/if}}
@@ -32,5 +36,3 @@
     {{/if}}
   </div>
 </template>
-
-

@@ -25,9 +25,11 @@ Ctrl.define
             if @api.isComplete()
               resultCtrls.isEmptySuccessVisible(filter is 'failed' and isEmpty)
               resultCtrls.isEmptyFailureVisible(filter is 'passed' and isEmpty)
+              resultCtrls.isEmptySkippedVisible(filter is 'skipped' and isEmpty)
             else
               resultCtrls.isEmptySuccessVisible(false)
               resultCtrls.isEmptyFailureVisible(false)
+              resultCtrls.isEmptySkippedVisible(false)
 
         updateEmptyListState = updateEmptyListState.debounce(100)
 

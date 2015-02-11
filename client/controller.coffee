@@ -64,9 +64,10 @@ TestReporterController = stampit().enclose ->
           total = 0
         passed = Reports.find({result: 'passed'}).count()
         failed = Reports.find({result: 'failed'}).count()
+        skipped = Reports.find({result: 'pending'}).count()
 
         # Calculate complete percentage.
-        percentComplete = if total is 0 then 0 else (1.0 * (passed + failed) / total)
+        percentComplete = if total is 0 then 0 else (1.0 * (passed + failed + skipped) / total)
         isComplete = aggregateCompleted?.result == "completed"
         @isComplete(isComplete) # Store in reactive property.
 
@@ -79,6 +80,7 @@ TestReporterController = stampit().enclose ->
         # Update header totals.
         ctrl.header.totalPassed(passed)
         ctrl.header.totalFailed(failed)
+        ctrl.header.totalSkipped(skipped)
         ctrl.header.totalTests(total)
         ctrl.header.percentComplete(percentComplete)
 
@@ -119,6 +121,8 @@ TestReporterController = stampit().enclose ->
             tabId = ctrl.header.selectedTabId()
             selector = {}
             selector.result = tabId unless tabId is 'total'
+            if tabId == "skipped"
+              selector.result = "pending"
             selector
 
             ctrl.results.clear()
@@ -138,7 +142,3 @@ PKG.TestReporterController = stampit.compose(
   Stamps.AutoRun
   TestReporterController
 )
-
-
-
-

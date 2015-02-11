@@ -24,6 +24,13 @@ Ctrl.define
         return true if server? and server.failed
         false
 
+      skipped: ->
+        client = @api.clientResult()
+        server = @api.serverResult()
+        return true if client? and client.skipped
+        return true if server? and server.skipped
+        false
+
 
 
     helpers:
@@ -65,5 +72,3 @@ formatElapsed = (msecs) ->
       time = msecs
       unit = 'ms'
     "#{ time }#{ unit }"
-
-

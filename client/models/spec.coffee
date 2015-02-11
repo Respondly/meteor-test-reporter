@@ -40,11 +40,10 @@ PKG.Spec = stampit().enclose ->
     @parentSuite.childSpecs.push(@)
     @parentSuite.childSpecs.total(@parentSuite.childSpecs.total() + 1)
 
-    @passed = null
-    @failed = null
-    if not doc.pending
-      @passed = doc.result is 'passed'
-      @failed = doc.result is 'failed'
+    @passed = doc.result is 'passed'
+    @failed = doc.result is 'failed'
+    @skipped = doc.result is 'pending'
+
 
     if @failed
       @error =
@@ -61,4 +60,3 @@ PKG.Spec = stampit().enclose ->
 
   # ----------------------------------------------------------------------
   return @
-

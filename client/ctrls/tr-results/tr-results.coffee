@@ -31,6 +31,7 @@ Ctrl.define
       isEmptyFailureVisible: (value) -> @prop 'isEmptyFailureVisible', value, default:false
 
 
+      isEmptySkippedVisible: (value) -> @prop 'isEmptySkippedVisible', value, default: false
 
       ###
       Adds a new test result.
@@ -83,8 +84,3 @@ Ctrl.define
       clear: ->
         suiteCtrl.dispose() for suiteCtrl in @findChildren('tr-result-suite')
         @api.count(0)
-
-
-
-
-

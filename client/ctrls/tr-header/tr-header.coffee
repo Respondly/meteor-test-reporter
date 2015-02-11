@@ -20,6 +20,7 @@ Ctrl.define
           @children.total.label("#{ format(total) } #{ Util.string.plural(total, 'test') }")
           @children.passed.label("#{ format(@api.totalPassed()) } Passed")
           @children.failed.label("#{ format(@api.totalFailed()) } Failed")
+          @children.skipped.label("#{ format(@api.totalSkipped()) } Skipped")
 
       # Store selected tab ID in local storage.
       @autorun => localStorageSelectedTabId(@api.selectedTabId())
@@ -67,7 +68,7 @@ Ctrl.define
       totalTests: (value) -> @prop 'totalTests', value, default:0
       totalPassed: (value) -> @prop 'totalPassed', value, default:0
       totalFailed: (value) -> @prop 'totalFailed', value, default:0
-
+      totalSkipped: (value) -> @prop 'totalSkipped', value, default:0
 
 
 
@@ -113,6 +114,3 @@ Ctrl.define
         percent = @api.percentComplete()
         percent = 0 if Object.isNaN(percent)
         (percent * 100).round()
-
-
-
