@@ -33,7 +33,7 @@ TestReporterController = stampit().enclose ->
 
     # Sync progress.
     showElapsedTime = =>
-          startedAt = Reports.find({}, sort:{timestamp:1}).fetch()[0]?.timestamp
+          startedAt = Aggregates.findOne({name: "mochaMetadata"})?.start
           if startedAt
             seconds = (startedAt.millisecondsAgo() / 1000).round(1)
           else
@@ -59,12 +59,24 @@ TestReporterController = stampit().enclose ->
         aggregateCompleted = Aggregates.findOne({name: 'aggregateComplete'})
         aggregateResult = Aggregates.findOne({name: 'aggregateResult'})
         if mochaMetadata
-          total = mochaMetadata.serverTestCount + mochaMetadata.clientTestCount
+          #this is run an awful lot, might want to cache
+          total = _.union(mochaMetadata.serverTests, mochaMetadata.clientTests).length
         else
           total = 0
-        passed = Reports.find({result: 'passed'}).count()
-        failed = Reports.find({result: 'failed'}).count()
-        skipped = Reports.find({result: 'pending'}).count()
+
+        totals = {}
+        Reports.find({result: 'pending'}).forEach (rep)->
+          totals[rep.fullName] = 'skipped'
+        Reports.find({result: 'passed'}).forEach (rep)->
+          totals[rep.fullName] = 'passed'
+        Reports.find({result: 'failed'}).forEach (rep)->
+          totals[rep.fullName] = 'failed'
+
+        [passed, failed, skipped] = [0,0,0]
+        _.values(totals).forEach (result)->
+          passed +=1 if result == "passed"
+          failed +=1 if result == "failed"
+          skipped +=1 if result == "skipped"
 
         # Calculate complete percentage.
         percentComplete = if total is 0 then 0 else (1.0 * (passed + failed + skipped) / total)
