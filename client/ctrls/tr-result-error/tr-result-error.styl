@@ -10,6 +10,7 @@
   border-radius 3px
   > h2
     color white !important
+    cursor pointer
 
   .tr-badge
     display inline-block
@@ -21,8 +22,22 @@
     font-weight 600
     text-transform uppercase
 
+  .tr-toggle-details
+    position relative
+    float right
+    opacity 0.5
+    font-size 11px
+    top 3px
+    &:hover
+      text-decoration underline
+      cursor pointer
+      color white
+
+  // ------------------------------------------------------
+
   > .tr-trace
     background rgba(white, 0.6)
+    display none
     color rgba(black, 0.7)
     font-size 13px
     line-height 16px
@@ -41,5 +56,8 @@
       li
         margin-bottom 10px
 
+  &.details-visible
+    > .tr-trace
+      display block
 
 

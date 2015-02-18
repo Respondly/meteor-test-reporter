@@ -1,8 +1,19 @@
 Ctrl.define
   'tr-result-error':
+    api:
+      isDetailsVisible: (value) -> @prop 'isDetailsVisible', value, default:false
+
+
     helpers:
+      cssClass: ->
+        css = ''
+        css += 'details-visible' if @api.isDetailsVisible()
+        css
+
       domain: -> @data.domain
       title: -> @data.message
+
+      detailLabel: -> if @api.isDetailsVisible() then 'Less Detail' else 'More Detail'
 
       stackTrace: ->
         items = @data.stackTrace.split('\n').removeAt(0) # Remove the first line which is the "title".
@@ -22,3 +33,7 @@ Ctrl.define
               raw: raw
               line: line
               path: path
+
+
+    events:
+      'click h2': -> @api.isDetailsVisible(not @api.isDetailsVisible())
