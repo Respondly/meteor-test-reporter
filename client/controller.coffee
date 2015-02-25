@@ -53,6 +53,8 @@ TestReporterController = stampit().enclose ->
 
     # Display results.
     @autorun =>
+        testDescs = {}
+
         # Calculate stats.
         mochaAggregate = Aggregates.findOne({name:"mocha"})
         mochaMetadata = Aggregates.findOne({name:"mochaMetadata"})
@@ -60,7 +62,13 @@ TestReporterController = stampit().enclose ->
         aggregateResult = Aggregates.findOne({name: 'aggregateResult'})
         if mochaMetadata
           #this is run an awful lot, might want to cache
-          total = _.union(mochaMetadata.serverTests, mochaMetadata.clientTests).length
+          mochaMetadata.serverTests?.forEach (serverTest)->
+            testDescs[serverTest] = testDescs[serverTest] or {}
+            testDescs[serverTest].server = true
+          mochaMetadata.clientTests?.forEach (clientTest)->
+            testDescs[clientTest] = testDescs[clientTest] or {}
+            testDescs[clientTest].client = true
+          total = _.keys(testDescs).length
         else
           total = 0
 
@@ -68,7 +76,15 @@ TestReporterController = stampit().enclose ->
         Reports.find({result: 'pending'}).forEach (rep)->
           totals[rep.fullName] = 'skipped'
         Reports.find({result: 'passed'}).forEach (rep)->
-          totals[rep.fullName] = 'passed'
+          #its not passing until it passes both client and server
+          if rep.isClient
+            if testDescs[rep.fullName]?.server
+              totals[rep.fullName] = 'half-finished'
+            else
+              totals[rep.fullName] = 'passed'
+          else #server test
+            totals[rep.fullName] = "passed"
+
         Reports.find({result: 'failed'}).forEach (rep)->
           totals[rep.fullName] = 'failed'
 
