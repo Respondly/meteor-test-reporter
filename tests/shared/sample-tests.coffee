@@ -44,4 +44,11 @@ describe.server 'Server Only', ->
   it "Has a really long name on the server #{ LOREM }", ->
 
 
+describe.skip "describe skipped", ->
+  it "has skipped describes", (done)->
+
+describe "more skip tests", ->
+  it.skip "allows skipping tests", ->
+    console.log("SKIPPED, wait what?")
+
 it 'Test has no suite', ->
