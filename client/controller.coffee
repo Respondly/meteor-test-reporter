@@ -35,7 +35,7 @@ TestReporterController = stampit().enclose ->
     showElapsedTime = =>
           startedAt = Aggregates.findOne({name: "mochaMetadata"})?.start
           if startedAt
-            seconds = (startedAt.millisecondsAgo() / 1000).round(1)
+            seconds = ((Date.now() - startedAt) / 1000).round(1)
           else
             seconds = 0
           ctrl.header.elapsedSeconds(seconds)
