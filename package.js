@@ -59,7 +59,7 @@ Package.onUse(function(api) {
 
 
 Package.onTest(function (api) {
-  api.use(['mike:mocha-package@0.5.6', 'coffeescript']);
+  api.use(['mike:mocha-package@0.5.7', 'coffeescript']);
   api.use(['templating', 'ui', 'spacebars'], 'client');
   api.use(['respondly:util']);
   api.use('respondly:test-reporter');
