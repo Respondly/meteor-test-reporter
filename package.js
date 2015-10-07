@@ -50,8 +50,8 @@ Package.onUse(function(api) {
   api.addFiles('client/models/suite.coffee', 'client');
   api.addFiles('client/controller.coffee', 'client');
   api.addFiles('client/css.styl', 'client');
-  api.addFiles('images/sad-bunny.svg', ['client', 'server']);
-  api.addFiles('images/thumbs-up.svg', ['client', 'server']);
+  api.addAssets('images/sad-bunny.svg', ['client', 'server']);
+  api.addAssets('images/thumbs-up.svg', ['client', 'server']);
 
 });
 
