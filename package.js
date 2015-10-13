@@ -7,15 +7,23 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
-  api.use('autoupdate', 'server');
-  api.use('random', 'server');
-  api.use(['coffeescript', 'http']);
-  api.use(['templating', 'ui', 'spacebars'], 'client');
-  api.use('respondly:css-stylus@1.0.3');
-  api.use('respondly:css-common@1.0.1');
-  api.use('respondly:ctrl@1.0.1');
-  api.use('respondly:util@1.0.1');
-  api.use(['velocity:core@0.4.2']);
+  api.use([
+    'jquery',
+    'tracker',
+    'underscore',
+    'autoupdate',
+    'random',
+    'coffeescript',
+    'templating',
+  ]);
+
+  api.use([
+    'respondly:css-stylus@1.0.3',
+    'respondly:css-common@1.0.1',
+    'respondly:ctrl@1.0.1',
+    'respondly:util@1.0.1',
+    'velocity:core@0.4.2',
+  ]);
   api.export("Ctrl");
 
   // Generated with: github.com/philcockfield/meteor-package-paths
