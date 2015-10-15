@@ -8,21 +8,21 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use([
-    'jquery',
-    'tracker',
-    'underscore',
-    'autoupdate',
-    'random',
-    'coffeescript',
-    'templating',
+    'jquery@1.11.4',
+    'tracker@1.0.9',
+    'underscore@1.0.4',
+    'autoupdate@1.2.3',
+    'random@1.0.4',
+    'coffeescript@1.0.10',
+    'templating@1.1.4'
   ]);
 
   api.use([
     'respondly:css-stylus@1.0.3',
     'respondly:css-common@1.0.1',
-    'respondly:ctrl@1.0.1',
-    'respondly:util@1.0.1',
-    'velocity:core@0.4.2',
+    'respondly:ctrl@1.0.2',
+    'respondly:util@1.0.3',
+    'velocity:core@0.10.5',
   ]);
   api.export("Ctrl");
 
@@ -67,9 +67,13 @@ Package.onUse(function(api) {
 
 
 Package.onTest(function (api) {
-  api.use(['mike:mocha-package@0.5.7', 'coffeescript']);
-  api.use(['templating', 'ui', 'spacebars'], 'client');
-  api.use(['respondly:util']);
+  api.use([
+    'mike:mocha-package@0.5.7',
+    'templating@1.1.4',
+    'coffeescript@1.0.10',
+    'respondly:util@1.0.3'
+  ]);
+
   api.use('respondly:test-reporter');
 
   // Generated with: github.com/philcockfield/meteor-package-paths
