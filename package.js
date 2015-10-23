@@ -19,7 +19,7 @@ Package.onUse(function(api) {
 
   api.use([
     'respondly:css-stylus@1.0.3',
-    'respondly:css-common@1.0.1',
+    'respondly:css-common@1.0.2',
     'respondly:ctrl@1.0.2',
     'respondly:util@1.0.3',
     'velocity:core@0.10.5',
