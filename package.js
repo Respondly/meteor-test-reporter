@@ -19,7 +19,6 @@ Package.onUse(function(api) {
 
   api.use([
     'respondly:css-stylus@1.0.3',
-    'respondly:css-common@1.0.2',
     'respondly:ctrl@1.0.2',
     'respondly:util@1.0.3',
     'velocity:core@0.10.5',
@@ -53,6 +52,7 @@ Package.onUse(function(api) {
   api.addFiles('client/ctrls/tr-results/tr-results.styl', 'client');
   api.addFiles('client/ctrls/css.styl', 'client');
   api.addFiles('client/ctrls/page.coffee', 'client');
+  api.addFiles('client/css-mixins/core.import.styl', 'client');
   api.addFiles('client/css-mixins/test-runner.import.styl', 'client');
   api.addFiles('client/models/spec.coffee', 'client');
   api.addFiles('client/models/suite.coffee', 'client');

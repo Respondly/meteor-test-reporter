@@ -1,0 +1,223 @@
+@import 'nib'
+
+
+// -----------------------------------------------------------------
+
+
+$RED         = rgba(255, 0, 0, 0.05)
+$GREEN       = #54af66
+$LINK_BLUE   = #0F94F6
+$CODE_COLOR  = #d14
+
+
+$MONO_SPACE  = Monaco, Menlo, Consolas, "Courier New", monospace;
+$SANS        = 'Open Sans', sans-serif
+
+
+
+// -----------------------------------------------------------------
+
+
+toUnit(prop, value, unit=px)
+  if value is not null
+    {prop} unit(value, unit)
+
+
+
+// Position --------------------------------------------------------
+
+
+fixed-pos(left = 0, top = 0, right = 0, bottom = 0, unit=px)
+  position fixed
+  toUnit 'left', left, unit
+  toUnit 'top', top, unit
+  toUnit 'right', right, unit
+  toUnit 'bottom', bottom, unit
+
+
+abs-pos(left = 0, top = 0, right = 0, bottom = 0, unit=px)
+  position absolute
+  toUnit 'left', left, unit
+  toUnit 'top', top, unit
+  toUnit 'right', right, unit
+  toUnit 'bottom', bottom, unit
+
+
+
+// Center Position ------------------------------------------------------
+
+
+abs-center-x(offset = 0)
+  position absolute
+  left 50%
+  transform translateX(-50%)
+  toUnit 'margin-left', offset
+
+abs-center-y(offset = 0)
+  position absolute
+  top 50%
+  transform translateY(-50%)
+  toUnit 'margin-top', offset
+
+abs-center(offsetX = 0, offsetY = 0)
+  position absolute
+  left 50%
+  top 50%
+  transform translate(-50%, -50%)
+  toUnit 'margin-left', offsetX
+  toUnit 'margin-top', offsetY
+
+
+// ------------------------------------------------------
+
+
+abs-middle(width = null, height = null, unit=px)
+  position absolute
+  if width is not null
+    left 50%
+    margin-left unit((0 - width) / 2, unit)
+
+  if height is not null
+    top 50%
+    margin-top unit((0 - height) / 2, unit)
+
+abs-middle-x(width, unit=px)
+  abs-middle(width, null, unit)
+
+abs-middle-y(height, unit=px)
+  abs-middle(null, height, unit)
+
+
+
+// Center Margin ------------------------------------------------------
+
+center-margin()
+  margin-left  auto
+  margin-right auto
+
+margin-center()
+  center-margin()
+
+
+
+// Size --------------------------------------------------------
+
+
+size(width, height = width, unit=px)
+  toUnit 'width',  width,  unit
+  toUnit 'height', height, unit
+
+min-size(width, height = width, unit=px)
+  toUnit 'width',  min-width,  unit
+  toUnit 'height', min-height, unit
+
+
+
+// Popup --------------------------------------------------------
+
+
+popup-bg()
+  background white
+  border solid 1px darken(white, 40%)
+  border-radius 5px
+  box-shadow 5px 5px 10px 0px rgba(black ,0.1)
+
+
+
+// Images --------------------------------------------------------
+
+
+bg-image(path, width=null, height=null, repeat=null)
+  // Size.
+  height = width if height is null
+  size(width, height, 'px')
+
+  // Image path.
+  if match('.svg$', path)
+    // SVG's don't need an @2x retina version.
+    background-image url(path)
+  else
+    // Give all other image types the @2x retina version.
+    image path, unit(width, 'px'), unit(height, 'px')
+
+  // Repeat.
+  repeat = no-repeat if repeat is null
+  background-repeat repeat
+
+
+
+package-image-path(packageName, path)
+  base = '/packages/' + packageName + '/images'
+  base += '/' if not match('^\/', path)
+  base + path
+
+
+/*
+Generates a path to an image within the specified pacakge.
+@param packageName: The name of the package.
+                    NOTE: Expecting colons to be converted to underscores, for example:
+                          ns:my-package ==> ns_my-package
+*/
+package-image(packageName, path, width=null, height=null, repeat=null)
+  path = package-image-path(packageName, path)
+  bg-image(path, width, height, repeat)
+
+
+
+// Border --------------------------------------------------------
+
+
+border-inset(lightColor, darkColor, width = 1px)
+  border solid width
+  border-top-color    darkColor
+  border-left-color   darkColor
+  border-bottom-color lightColor
+  border-right-color  lightColor
+
+
+
+code-highlight()
+  padding 2px 4px
+  color $CODE_COLOR
+  white-space nowrap
+  background-color #f7f7f9
+  border 1px solid #e1e1e8
+
+
+
+// Sundry --------------------------------------------------------
+
+
+ellipsis()
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+
+
+
+// ------------------------------------------------------
+
+
+/*
+// Source: http://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+
+     To use:
+
+        Create a varialbe with the method, eg:
+
+            NARROW      = query-max-width(900)
+            WIDE        = query-min-width(901)
+
+        Then use the variable with an @media selector:
+
+            @media NARROW
+              background green
+              ...
+*/
+
+
+query-max-width(pixelWidth)
+  'only screen and (max-width : ' + pixelWidth + 'px)'
+
+query-min-width(pixelWidth)
+  'only screen and (min-width : ' + pixelWidth + 'px)'
