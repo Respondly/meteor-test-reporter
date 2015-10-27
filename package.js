@@ -1,7 +1,7 @@
 Package.describe({
   name: 'respondly:test-reporter',
   summary: 'Displays test-runner progress and results.',
-  version: '1.0.1',
+  version: '1.0.2',
   git: 'https://github.com/Respondly/respondly-test-reporter.git'
 });
 
